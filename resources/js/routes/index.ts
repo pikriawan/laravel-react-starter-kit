@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::login
 * @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:47
@@ -137,8 +137,8 @@ logoutForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 logout.form = logoutForm
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -152,8 +152,8 @@ home.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 home.url = (options?: RouteQueryOptions) => {
@@ -161,8 +161,8 @@ home.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -171,8 +171,8 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -181,8 +181,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -191,8 +191,8 @@ const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -201,8 +201,8 @@ homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 /**
-* @see \Inertia\Controller::__invoke
-* @see vendor/inertiajs/inertia-laravel/src/Controller.php:13
+* @see \App\Http\Controllers\PhotoController::home
+* @see app/Http/Controllers/PhotoController.php:15
 * @route '/'
 */
 homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -216,6 +216,167 @@ homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 })
 
 home.form = homeForm
+
+/**
+* @see \App\Http\Controllers\PhotoController::upload
+* @see app/Http/Controllers/PhotoController.php:41
+* @route '/upload'
+*/
+export const upload = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: upload.url(options),
+    method: 'post',
+})
+
+upload.definition = {
+    methods: ["post"],
+    url: '/upload',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\PhotoController::upload
+* @see app/Http/Controllers/PhotoController.php:41
+* @route '/upload'
+*/
+upload.url = (options?: RouteQueryOptions) => {
+    return upload.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\PhotoController::upload
+* @see app/Http/Controllers/PhotoController.php:41
+* @route '/upload'
+*/
+upload.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: upload.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::upload
+* @see app/Http/Controllers/PhotoController.php:41
+* @route '/upload'
+*/
+const uploadForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: upload.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::upload
+* @see app/Http/Controllers/PhotoController.php:41
+* @route '/upload'
+*/
+uploadForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: upload.url(options),
+    method: 'post',
+})
+
+upload.form = uploadForm
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+export const download = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: download.url(args, options),
+    method: 'get',
+})
+
+download.definition = {
+    methods: ["get","head"],
+    url: '/download/{photo}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+download.url = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { photo: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { photo: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            photo: args[0],
+        }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+        photo: typeof args.photo === 'object'
+        ? args.photo.id
+        : args.photo,
+    }
+
+    return download.definition.url
+            .replace('{photo}', parsedArgs.photo.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+download.get = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: download.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+download.head = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: download.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+const downloadForm = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: download.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+downloadForm.get = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: download.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\PhotoController::download
+* @see app/Http/Controllers/PhotoController.php:118
+* @route '/download/{photo}'
+*/
+downloadForm.head = (args: { photo: string | number | { id: string | number } } | [photo: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: download.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+download.form = downloadForm
 
 /**
 * @see \Inertia\Controller::__invoke
